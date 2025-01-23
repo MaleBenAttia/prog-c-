@@ -129,7 +129,7 @@ switch (choix)
     case 1: // Haut
         if (n1 - 1 >= 0)
         {
-            if (Matric[n1 - 1][m1] == '1')
+            if (Matric[n1 - 1][m1] == '1'|| Matric[n1 - 1][m1] == '2')
             {
                 std::cout << "Vous avez choisi de monter (Haut).\nMais il y a un mur.\n";
             }
@@ -153,6 +153,7 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                     Matric[n1][m1]='2';
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -167,7 +168,7 @@ switch (choix)
     case 2: // Bas
         if (n1 + 1 < n)
         {
-            if (Matric[n1 + 1][m1] == '1')
+            if (Matric[n1 + 1][m1] == '1' ||Matric[n1 + 1][m1] == '2' )
             {
                 std::cout << "Vous avez choisi de descendre (Bas).\nMais il y a un mur.\n";
             }
@@ -191,6 +192,7 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                     Matric[n1][m1]='2';
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -205,7 +207,7 @@ switch (choix)
     case 3: // Gauche
         if (m1 - 1 >= 0)
         {
-            if (Matric[n1][m1 - 1] == '1')
+            if (Matric[n1][m1 - 1] == '1' || Matric[n1][m1 - 1] == '2')
             {
                 std::cout << "Vous avez choisi de bouger à gauche.\nMais il y a un mur.\n";
             }
@@ -229,6 +231,7 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                     Matric[n1][m1]='2';
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -243,7 +246,7 @@ switch (choix)
     case 4: // Droite
         if (m1 + 1 < m)
         {
-            if (Matric[n1][m1 + 1] == '1')
+            if (Matric[n1][m1 + 1] == '1' || Matric[n1][m1 + 1] == '2')
             {
                 std::cout << "Vous avez choisi de bouger à droite.\nMais il y a un mur.\n";
             }
@@ -267,6 +270,7 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                     Matric[n1][m1]='2';
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -281,7 +285,7 @@ switch (choix)
     case 5: // Diagonale Haut-Gauche
         if (n1 - 1 >= 0 && m1 - 1 >= 0)
         {
-            if (Matric[n1 - 1][m1 - 1] == '1')
+            if (Matric[n1 - 1][m1 - 1] == '1' || Matric[n1 - 1][m1 - 1] == '2')
             {
                 std::cout << "Vous avez choisi de monter en diagonale (Haut-Gauche).\nMais il y a un mur.\n";
             }
@@ -306,6 +310,7 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                     Matric[n1][m1]='2';
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -320,7 +325,7 @@ switch (choix)
     case 6: // Diagonale Haut-Droite
         if (n1 - 1 >= 0 && m1 + 1 < m)
         {
-            if (Matric[n1 - 1][m1 + 1] == '1')
+            if (Matric[n1 - 1][m1 + 1] == '1' || Matric[n1 - 1][m1 + 1] == '2')
             {
                 std::cout << "Vous avez choisi de monter en diagonale (Haut-Droite).\nMais il y a un mur.\n";
             }
@@ -345,6 +350,7 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                     Matric[n1][m1]='2';
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -359,7 +365,7 @@ switch (choix)
     case 7: // Diagonale Bas-Gauche
         if (n1 + 1 < n && m1 - 1 >= 0)
         {
-            if (Matric[n1 + 1][m1 - 1] == '1')
+            if (Matric[n1 + 1][m1 - 1] == '1' || Matric[n1 + 1][m1 - 1] == '2')
             {
                 std::cout << "Vous avez choisi de descendre en diagonale (Bas-Gauche).\nMais il y a un mur.\n";
             }
@@ -384,6 +390,7 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                    Matric[n1][m1]='2';
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -398,7 +405,7 @@ switch (choix)
     case 8: // Diagonale Bas-Droite
         if (n1 + 1 < n && m1 + 1 < m)
         {
-            if (Matric[n1 + 1][m1 + 1] == '1')
+            if (Matric[n1 + 1][m1 + 1] == '1' || Matric[n1 + 1][m1 + 1] == '2')
             {
                 std::cout << "Vous avez choisi de descendre en diagonale (Bas-Droite).\nMais il y a un mur.\n";
             }
@@ -423,6 +430,8 @@ switch (choix)
                 {
                     T[i] = Matric[n1][m1];
                     i++;
+                     Matric[n1][m1]='2';
+
                 }
 
                 std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
@@ -470,6 +479,7 @@ int main()
     } while (n1 > n || n1 < 0 || m1 > m || m1 < 0);
     std::cout << "tu es a la posistion: " << Matric[n1][m1] << std::endl;
 char abda=Matric[n1][m1];
+Matric[n1][m1]='2';
     direction(n, m, n1, m1, 4,1,abda);
     return 0;
 }
