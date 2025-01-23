@@ -7,5 +7,9 @@ la
 le
 les
 chat
-git branch -M master
-git push -u origin master
+git status
+git add .
+git add fichier.cpp
+git commit -m "Corrigé les fonctions de matrice et de direction"
+git remote -v
+git push origin master

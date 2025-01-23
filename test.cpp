@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-
+#define conYO (rec != 'Y' && rec != 'y' && rec != 'N' && rec != 'n')
 // Déclaration de la matrice globale
 char Matric[100][100];
 char T[20];
@@ -25,7 +25,6 @@ int combienDeUn(int n, int m)
 }
 void menu()
 {
-    int val;
 
     std::cout << "\n--- Menu de déplacement ---\n";
     std::cout << "1. Haut\n";
@@ -87,14 +86,31 @@ void afficheMatrice(int n, int m)
     }
 }
 
-void direction(int n, int m,int n1,int m1)
+void afficheTab(char T[],int mac,int step){
+
+ std::cout << "tu as recuperer le mot : ";
+    for (int i = 0; i < mac; i++)
+    {
+        std::cout << T[i];
+    }
+     std::cout << std::endl ;
+    std::cout << "avec nb step= : " << step << std::endl ;
+
+
+}
+void direction(int n, int m, int n1, int m1, int max,int mloul,char loul)
 {
-    int i = 0;
-    while (i < 6)
+    char rec;
+    T[0]=loul;
+    int i = mloul;
+    int step= 0;
+    int mac=6;
+    while (i < mac)
     {
         std::cout << "Choisissez un mouvement (entre 1 et 8) : ";
         menu();
         afficheMatrice(n, m);
+        afficheTab(T,mac,step);
         std::cin >> choix;
 
         // Validation de l'entrée (entre 1 et 8)
@@ -107,139 +123,328 @@ void direction(int n, int m,int n1,int m1)
         }
         // Gestion des choix avec switch
 
-          // Gestion des choix de mouvement
-        switch (choix) {
-            case 1: // Haut
-                if (n1 - 1 >= 0) {
-                    if (Matric[n1 - 1][m1] == '1') {
-                        std::cout << "Vous avez choisi de monter (Haut).\nMais il y a un mur.\n";
-                    } else {
-                        n1 -= 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de monter (Haut).\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
-                    }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
-                }
-                break;
+        // Gestion des choix de mouvement
+switch (choix)
+{
+    case 1: // Haut
+        if (n1 - 1 >= 0)
+        {
+            if (Matric[n1 - 1][m1] == '1')
+            {
+                std::cout << "Vous avez choisi de monter (Haut).\nMais il y a un mur.\n";
+            }
+            else
+            {
+                n1 -= 1; 
+                step++;
 
-            case 2: // Bas
-                if (n1 + 1 < n) {
-                    if (Matric[n1 + 1][m1] == '1') {
-                        std::cout << "Vous avez choisi de descendre (Bas).\nMais il y a un mur.\n";
-                    } else {
-                        n1 += 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de descendre (Bas).\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
-                    }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
-                }
-                break;
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
 
-            case 3: // Gauche
-                if (m1 - 1 >= 0) {
-                    if (Matric[n1][m1 - 1] == '1') {
-                        std::cout << "Vous avez choisi de bouger à gauche.\nMais il y a un mur.\n";
-                    } else {
-                        m1 -= 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de bouger à gauche.\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
                     }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
-                }
-                break;
+                } while (conYO);
 
-            case 4: // Droite
-                if (m1 + 1 < m) {
-                    if (Matric[n1][m1 + 1] == '1') {
-                        std::cout << "Vous avez choisi de bouger à droite.\nMais il y a un mur.\n";
-                    } else {
-                        m1 += 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de bouger à droite.\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
-                    }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
                 }
-                break;
 
-            case 5: // Diagonale Haut-Gauche
-                if (n1 - 1 >= 0 && m1 - 1 >= 0) {
-                    if (Matric[n1 - 1][m1 - 1] == '1') {
-                        std::cout << "Vous avez choisi de monter en diagonale (Haut-Gauche).\nMais il y a un mur.\n";
-                    } else {
-                        n1 -= 1;
-                        m1 -= 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de monter en diagonale (Haut-Gauche).\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
-                    }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
-                }
-                break;
-
-            case 6: // Diagonale Haut-Droite
-                if (n1 - 1 >= 0 && m1 + 1 < m) {
-                    if (Matric[n1 - 1][m1 + 1] == '1') {
-                        std::cout << "Vous avez choisi de monter en diagonale (Haut-Droite).\nMais il y a un mur.\n";
-                    } else {
-                        n1 -= 1;
-                        m1 += 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de monter en diagonale (Haut-Droite).\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
-                    }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
-                }
-                break;
-
-            case 7: // Diagonale Bas-Gauche
-                if (n1 + 1 < n && m1 - 1 >= 0) {
-                    if (Matric[n1 + 1][m1 - 1] == '1') {
-                        std::cout << "Vous avez choisi de descendre en diagonale (Bas-Gauche).\nMais il y a un mur.\n";
-                    } else {
-                        n1 += 1;
-                        m1 -= 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de descendre en diagonale (Bas-Gauche).\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
-                    }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
-                }
-                break;
-
-            case 8: // Diagonale Bas-Droite
-                if (n1 + 1 < n && m1 + 1 < m) {
-                    if (Matric[n1 + 1][m1 + 1] == '1') {
-                        std::cout << "Vous avez choisi de descendre en diagonale (Bas-Droite).\nMais il y a un mur.\n";
-                    } else {
-                        n1 += 1;
-                        m1 += 1;
-                        T[i] = Matric[n1][m1];
-                        i++;
-                        std::cout << "Vous avez choisi de descendre en diagonale (Bas-Droite).\nVous êtes maintenant dans la case : " << T[i - 1] << std::endl;
-                    }
-                } else {
-                    std::cout << "Mouvement impossible (hors de la matrice).\n";
-                }
-                break;
-
-            default:
-                std::cout << "Aucun mouvement valide sélectionné.\n";
-                break;
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
         }
-    }
-    }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
 
+    case 2: // Bas
+        if (n1 + 1 < n)
+        {
+            if (Matric[n1 + 1][m1] == '1')
+            {
+                std::cout << "Vous avez choisi de descendre (Bas).\nMais il y a un mur.\n";
+            }
+            else
+            {
+                n1 += 1;
+                step++;
+
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
+
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                    }
+                } while (conYO);
+
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
+                }
+
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
+
+    case 3: // Gauche
+        if (m1 - 1 >= 0)
+        {
+            if (Matric[n1][m1 - 1] == '1')
+            {
+                std::cout << "Vous avez choisi de bouger à gauche.\nMais il y a un mur.\n";
+            }
+            else
+            {
+                m1 -= 1;
+                step++;
+
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
+
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                    }
+                } while (conYO);
+
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
+                }
+
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
+
+    case 4: // Droite
+        if (m1 + 1 < m)
+        {
+            if (Matric[n1][m1 + 1] == '1')
+            {
+                std::cout << "Vous avez choisi de bouger à droite.\nMais il y a un mur.\n";
+            }
+            else
+            {
+                m1 += 1;
+                step++;
+
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
+
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                    }
+                } while (conYO);
+
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
+                }
+
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
+
+    case 5: // Diagonale Haut-Gauche
+        if (n1 - 1 >= 0 && m1 - 1 >= 0)
+        {
+            if (Matric[n1 - 1][m1 - 1] == '1')
+            {
+                std::cout << "Vous avez choisi de monter en diagonale (Haut-Gauche).\nMais il y a un mur.\n";
+            }
+            else
+            {
+                n1 -= 1;
+                m1 -= 1;
+                step++;
+
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
+
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                    }
+                } while (conYO);
+
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
+                }
+
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
+
+    case 6: // Diagonale Haut-Droite
+        if (n1 - 1 >= 0 && m1 + 1 < m)
+        {
+            if (Matric[n1 - 1][m1 + 1] == '1')
+            {
+                std::cout << "Vous avez choisi de monter en diagonale (Haut-Droite).\nMais il y a un mur.\n";
+            }
+            else
+            {
+                n1 -= 1;
+                m1 += 1;
+                step++;
+
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
+
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                    }
+                } while (conYO);
+
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
+                }
+
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
+
+    case 7: // Diagonale Bas-Gauche
+        if (n1 + 1 < n && m1 - 1 >= 0)
+        {
+            if (Matric[n1 + 1][m1 - 1] == '1')
+            {
+                std::cout << "Vous avez choisi de descendre en diagonale (Bas-Gauche).\nMais il y a un mur.\n";
+            }
+            else
+            {
+                n1 += 1;
+                m1 -= 1;
+                step++;
+
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
+
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                    }
+                } while (conYO);
+
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
+                }
+
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
+
+    case 8: // Diagonale Bas-Droite
+        if (n1 + 1 < n && m1 + 1 < m)
+        {
+            if (Matric[n1 + 1][m1 + 1] == '1')
+            {
+                std::cout << "Vous avez choisi de descendre en diagonale (Bas-Droite).\nMais il y a un mur.\n";
+            }
+            else
+            {
+                n1 += 1;
+                m1 += 1;
+                step++;
+
+                do
+                {
+                    std::cout << "Tu veux prendre la valeur (" << Matric[n1][m1] << ") ? Si oui, tape Y. Sinon, tape N : ";
+                    std::cin >> rec;
+
+                    if (conYO)
+                    {
+                        std::cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                    }
+                } while (conYO);
+
+                if (rec == 'Y' || rec == 'y')
+                {
+                    T[i] = Matric[n1][m1];
+                    i++;
+                }
+
+                std::cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Mouvement impossible (hors de la matrice).\n";
+        }
+        break;
+
+    default:
+        std::cout << "Aucun mouvement valide sélectionné.\n";
+        break;
+}
+    }
+    std::cout << "tu as recuperer le mot : ";
+    for (int i = 0; i < 6; i++)
+    {
+        std::cout << T[i];
+    }
+}
 
 int main()
 {
@@ -264,7 +469,7 @@ int main()
         std::cin >> m1;
     } while (n1 > n || n1 < 0 || m1 > m || m1 < 0);
     std::cout << "tu es a la posistion: " << Matric[n1][m1] << std::endl;
-
-    direction(n,m,n1, m1);
+char abda=Matric[n1][m1];
+    direction(n, m, n1, m1, 4,1,abda);
     return 0;
 }
