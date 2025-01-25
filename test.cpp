@@ -8,6 +8,38 @@ int x = 0;
 #define connb (Matric[i][j] == '2' || Matric[i][j] == '3' || Matric[i][j] == '4' || Matric[i][j] == '5' || Matric[i][j] == '6' || Matric[i][j] == '7' || Matric[i][j] == '8' || Matric[i][j] == '9')
 #define conYO (rec != 'Y' && rec != 'y' && rec != 'N' && rec != 'n')
 
+
+#define H    (Matric[n1 - 1][m1] == '1' || Matric[n1 - 1][m1] == '2' || Matric[n1 - 1][m1] == '3' || \
+              Matric[n1 - 1][m1] == '4' || Matric[n1 - 1][m1] == '5' || Matric[n1 - 1][m1] == '6' || \
+              Matric[n1 - 1][m1] == '7' || Matric[n1 - 1][m1] == '8' || Matric[n1 - 1][m1] == '9')
+
+#define B    (Matric[n1 + 1][m1] == '1' || Matric[n1 + 1][m1] == '2' || Matric[n1 + 1][m1] == '3' || \
+              Matric[n1 + 1][m1] == '4' || Matric[n1 + 1][m1] == '5' || Matric[n1 + 1][m1] == '6' || \
+              Matric[n1 + 1][m1] == '7' || Matric[n1 + 1][m1] == '8' || Matric[n1 + 1][m1] == '9')
+
+#define G    (Matric[n1][m1 - 1] == '1' || Matric[n1][m1 - 1] == '2' || Matric[n1][m1 - 1] == '3' || \
+              Matric[n1][m1 - 1] == '4' || Matric[n1][m1 - 1] == '5' || Matric[n1][m1 - 1] == '6' || \
+              Matric[n1][m1 - 1] == '7' || Matric[n1][m1 - 1] == '8' || Matric[n1][m1 - 1] == '9')
+
+#define D    (Matric[n1][m1 + 1] == '1' || Matric[n1][m1 + 1] == '2' || Matric[n1][m1 + 1] == '3' || \
+              Matric[n1][m1 + 1] == '4' || Matric[n1][m1 + 1] == '5' || Matric[n1][m1 + 1] == '6' || \
+              Matric[n1][m1 + 1] == '7' || Matric[n1][m1 + 1] == '8' || Matric[n1][m1 + 1] == '9')
+
+#define HG   (Matric[n1 - 1][m1 - 1] == '1' || Matric[n1 - 1][m1 - 1] == '2' || Matric[n1 - 1][m1 - 1] == '3' || \
+              Matric[n1 - 1][m1 - 1] == '4' || Matric[n1 - 1][m1 - 1] == '5' || Matric[n1 - 1][m1 - 1] == '6' || \
+              Matric[n1 - 1][m1 - 1] == '7' || Matric[n1 - 1][m1 - 1] == '8' || Matric[n1 - 1][m1 - 1] == '9')
+
+#define HD   (Matric[n1 - 1][m1 + 1] == '1' || Matric[n1 - 1][m1 + 1] == '2' || Matric[n1 - 1][m1 + 1] == '3' || \
+              Matric[n1 - 1][m1 + 1] == '4' || Matric[n1 - 1][m1 + 1] == '5' || Matric[n1 - 1][m1 + 1] == '6' || \
+              Matric[n1 - 1][m1 + 1] == '7' || Matric[n1 - 1][m1 + 1] == '8' || Matric[n1 - 1][m1 + 1] == '9')
+
+#define BG   (Matric[n1 + 1][m1 - 1] == '1' || Matric[n1 + 1][m1 - 1] == '2' || Matric[n1 + 1][m1 - 1] == '3' || \
+              Matric[n1 + 1][m1 - 1] == '4' || Matric[n1 + 1][m1 - 1] == '5' || Matric[n1 + 1][m1 - 1] == '6' || \
+              Matric[n1 + 1][m1 - 1] == '7' || Matric[n1 + 1][m1 - 1] == '8' || Matric[n1 + 1][m1 - 1] == '9')
+
+#define BD   (Matric[n1 + 1][m1 + 1] == '1' || Matric[n1 + 1][m1 + 1] == '2' || Matric[n1 + 1][m1 + 1] == '3' || \
+              Matric[n1 + 1][m1 + 1] == '4' || Matric[n1 + 1][m1 + 1] == '5' || Matric[n1 + 1][m1 + 1] == '6' || \
+              Matric[n1 + 1][m1 + 1] == '7' || Matric[n1 + 1][m1 + 1] == '8' || Matric[n1 + 1][m1 + 1] == '9')
 // Déclaration de la matrice globale
 char Matric[100][100];
 char T[20];
@@ -44,6 +76,7 @@ void menu()
     cout << "Choisissez une option (1-8): " << endl;
 }
 // Fonction pour afficher la matrice et la remplir avec des valeurs aléatoires
+
 void remplirMatrice(int n, int m)
 {
 
@@ -183,7 +216,7 @@ while (1){
             case 1: // Haut
                 if (n1 - 1 >= 0)
                 {
-                    if (Matric[n1 - 1][m1] == '1' || Matric[n1 - 1][m1] == '2')
+                    if (H)
                     {
                         cout << "Vous avez choisi de monter (Haut).\nMais il y a un mur.\n";
                     }
@@ -222,7 +255,7 @@ while (1){
             case 2: // Bas
                 if (n1 + 1 < n)
                 {
-                    if (Matric[n1 + 1][m1] == '1' || Matric[n1 + 1][m1] == '2')
+                    if (B)
                     {
                         cout << "Vous avez choisi de descendre (Bas).\nMais il y a un mur.\n";
                     }
@@ -261,7 +294,7 @@ while (1){
             case 3: // Gauche
                 if (m1 - 1 >= 0)
                 {
-                    if (Matric[n1][m1 - 1] == '1' || Matric[n1][m1 - 1] == '2')
+                    if (G)
                     {
                         cout << "Vous avez choisi de bouger à gauche.\nMais il y a un mur.\n";
                     }
@@ -300,7 +333,7 @@ while (1){
             case 4: // Droite
                 if (m1 + 1 < m)
                 {
-                    if (Matric[n1][m1 + 1] == '1' || Matric[n1][m1 + 1] == '2')
+                    if (D)
                     {
                         cout << "Vous avez choisi de bouger à droite.\nMais il y a un mur.\n";
                     }
@@ -339,7 +372,7 @@ while (1){
             case 5: // Diagonale Haut-Gauche
                 if (n1 - 1 >= 0 && m1 - 1 >= 0)
                 {
-                    if (Matric[n1 - 1][m1 - 1] == '1' || Matric[n1 - 1][m1 - 1] == '2')
+                    if (HG)
                     {
                         cout << "Vous avez choisi de monter en diagonale (Haut-Gauche).\nMais il y a un mur.\n";
                     }
@@ -379,7 +412,7 @@ while (1){
             case 6: // Diagonale Haut-Droite
                 if (n1 - 1 >= 0 && m1 + 1 < m)
                 {
-                    if (Matric[n1 - 1][m1 + 1] == '1' || Matric[n1 - 1][m1 + 1] == '2')
+                    if (HD)
                     {
                         cout << "Vous avez choisi de monter en diagonale (Haut-Droite).\nMais il y a un mur.\n";
                     }
@@ -419,7 +452,7 @@ while (1){
             case 7: // Diagonale Bas-Gauche
                 if (n1 + 1 < n && m1 - 1 >= 0)
                 {
-                    if (Matric[n1 + 1][m1 - 1] == '1' || Matric[n1 + 1][m1 - 1] == '2')
+                    if (BG)
                     {
                         cout << "Vous avez choisi de descendre en diagonale (Bas-Gauche).\nMais il y a un mur.\n";
                     }
@@ -459,7 +492,7 @@ while (1){
             case 8: // Diagonale Bas-Droite
                 if (n1 + 1 < n && m1 + 1 < m)
                 {
-                    if (Matric[n1 + 1][m1 + 1] == '1' || Matric[n1 + 1][m1 + 1] == '2')
+                    if (BD)
                     {
                         cout << "Vous avez choisi de descendre en diagonale (Bas-Droite).\nMais il y a un mur.\n";
                     }
