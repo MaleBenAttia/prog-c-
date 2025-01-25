@@ -557,7 +557,25 @@ for (int k ;k<mac;k++){
     afficheTab1(T, mac);
     i=0;
     remplirMatrice2( n,  m);
-    
+    afficheMatrice(n,  m);
+
+do
+{
+     cout << "Donnez la position de départ (n1 et m1) : " <<  endl;
+     cin >> n1;
+     cin >> m1;
+
+    if (n1 >= n || n1 < 0 || m1 >= m || m1 < 0 )
+    {
+         cout << "Erreur : La position de départ doit être dans les limites de la matrice. Veuillez réessayer.\n";
+    }
+    if (Matric[n1][m1] =='1'){
+        cout << "opss il y a un mur"<<endl;
+    }
+} while (n1 >= n || n1 < 0 || m1 >= m || m1 < 0 || Matric[n1][m1] =='1');
+
+    T[0] = Matric[n1][m1];
+    Matric[n1][m1] = '2';
 }}
 
 
