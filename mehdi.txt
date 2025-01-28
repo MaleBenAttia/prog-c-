@@ -7,11 +7,15 @@ la
 le
 les
 chat
+
+
+
 git status
 git add .
-git add fichier.cpp
+git add test.cpp
 git commit -m "Corrigé les fonctions de matrice et de direction"
 git remote -v
 git push origin master
+
 g++ -o output test.cpp
 ./output  
