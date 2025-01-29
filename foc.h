@@ -2,11 +2,16 @@
 #ifndef finc
 #define finc
 
-
+#include <string>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include <fstream>
+
+#include <thread>  // Pour std::this_thread::sleep_for
+#include <chrono>  // Pour std::chrono::seconds
+
 using namespace std;
 
 int x = 0;
@@ -91,7 +96,9 @@ Graph matrixToGraph(vector<vector<char>>& matrix, int n, int m) {
     for (int i = 0; i < n; ++i) {
 
         for (int j = 0; j < m; ++j) {
-            int u = i * m + j; // Identifiant unique du nœud
+
+
+            int u = i * m + j; 
 if (matrix[u / m][u % m]=='1'){
 
 }
@@ -144,6 +151,7 @@ int combienDeUn(int n, int m)
     }
     return count;
 }
+
 void menu()
 {
 
@@ -189,11 +197,12 @@ void remplirMatrice(int n, int m)
         // Si la ligne n'a pas de '1', force l'ajout d'un '1'
         if (!hasOne)
         {
-            int randomColumn = rand() % 6; // Choisir une colonne aléatoire
+            int randomColumn = rand() % m; // Choisir une colonne aléatoire
             Matric[i][randomColumn] = '1';
         }
     }
 }
+
 void remplirMatrice2(int n, int m)
 {
     srand(time(0)); // Initialisation de la graine aléatoire
@@ -208,6 +217,7 @@ void remplirMatrice2(int n, int m)
             int randomValue = rand() % range; // Génère une valeur entre 0 et 29
 
             // Génération des caractères aléatoires
+            if (connb){
             if (randomValue < 4)
             {
                 Matric[i][j] = '1'; // Cas pour '1'
@@ -217,7 +227,7 @@ void remplirMatrice2(int n, int m)
             {
                 Matric[i][j] = 'A' + (randomValue - 4); // Cas pour 'A' à 'Z'
             }
-        }
+        
 
         // Si la ligne n'a pas de '1', force l'ajout d'un '1'
         if (!hasOne)
@@ -225,6 +235,8 @@ void remplirMatrice2(int n, int m)
             int randomColumn = rand() % m; // Choisir une colonne aléatoire
             Matric[i][randomColumn] = '1';
         }
+        }
+    }
     }
 }
 // Fonction pour afficher la matrice
@@ -261,14 +273,40 @@ void afficheTab1(char T[], int mac)
     }
     cout << endl;
 }
+
+void  lireEtAfficherMots(const string& nomFichier,string verif,int& Score) {
+    ifstream fichier(nomFichier); // Ouvrir le fichier en lecture
+
+    if (!fichier) {
+        cerr << "Erreur : Impossible d'ouvrir le fichier !" << endl;
+        return;
+    }
+
+    string mot; // Variable pour stocker chaque mot
+     
+    while (fichier >> mot) { // Lire mot par mot
+    if (mot==verif){
+  cout << "Mot lu exsiste : " << mot << endl;
+Score=+30; }
+
+else { cout << "NON  : " << mot << endl;    
+}
+   
+
+      
+
+    }
+
+    fichier.close(); // Fermer le fichier
+    
+}
+
 void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
 {
     T[0] = loul;
     char rec,mot;
-    int j=0;
-    int i = 0;
-    int step = 0;
-    int mac = 6;
+    int j=0,i = 0,step = 0,mac = 6,Score=0;
+
     j++;
 
 while (1){
@@ -625,12 +663,29 @@ do {
 
 if (mot == 'y'||mot =='Y'){
 
-i=mac;
+string kelma(T, i);//lena nekhdhou el klma 
 
-for (int k ;k<mac;k++){
+for (int k=0 ;k<i;k++){
     T[k]=' ';
 }
 
+
+cout << "tu as le mot " << kelma <<"    okkkkkkkkkkkkkkk "<<endl;
+
+lireEtAfficherMots("mehdi.txt",kelma,Score) ;
+
+
+
+cout << "tu as un Score de  " <<Score <<"    okkkkkkkkkkkkkkk "<<endl;
+
+  std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+
+  
+
+
+i=mac;     //lezzem lena bch najmou nokhrjou mel while w najmou narfou kober el kelma 
+
+  
 
 }
 
@@ -660,6 +715,9 @@ do
     T[0] = Matric[n1][m1];
     Matric[n1][m1] = '2';
 }}
+
+
+
 
 
 
