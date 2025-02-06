@@ -55,83 +55,6 @@ char Matric[100][100];
 char Matric1[100][100];
 char T[20];
 int m, n, choix, n1, m1;
-// Fonction pour compter le nombre de '1' dans la matrice
-
-#define BLOQ(valeurVoisin) (valeurVoisin < '1' || valeurVoisin > '9')
-
-int comp(string mot1, string mot2)
-{
-
-    if (mot1 == mot2)
-    {
-        cout << "Les mots sont identiques.\n";
-        return 1;
-    }
-
-    else
-    {
-        cout << "Les mots sont différents.\n";
-        return 0;
-    }
-}
-
-// Structure pour représenter un graphe
-struct Graph
-{
-    int V;                   // Nombre de nœuds
-    vector<vector<int>> adj; // Liste d'adjacence
-};
-
-// Fonction pour convertir une matrice en graphe
-Graph matrixToGraph(vector<vector<char>> &matrix, int n, int m)
-{
-
-    Graph g;
-    g.V = n * m; // Nombre total de nœuds
-    g.adj.resize(g.V);
-
-    // Directions pour les déplacements (haut, bas, gauche, droite, diagonales)
-    int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
-    int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
-
-    // Parcourir chaque cellule de la matrice
-    for (int i = 0; i < n; ++i)
-    {
-
-        for (int j = 0; j < m; ++j)
-        {
-
-            int u = i * m + j;
-            if (matrix[u / m][u % m] == '1')
-            {
-            }
-
-            // Parcourir les voisins
-            else
-            {
-                for (int k = 0; k < 8; ++k)
-                {
-                    int x = i + dx[k];
-                    int y = j + dy[k];
-
-                    // Vérifier si le voisin est dans les limites de la matrice
-                    if (x >= 0 && x < n && y >= 0 && y < m)
-                    {
-                        // Vérifier si la case voisine est un obstacle
-                        char valeurVoisin = matrix[x][y];
-                        if (BLOQ(valeurVoisin))
-                        {
-                            int v = x * m + y;     // Identifiant unique du voisin
-                            g.adj[u].push_back(v); // Ajouter une arête entre u et v
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return g;
-}
 
 int combienDeUn(int n, int m)
 {
@@ -163,7 +86,6 @@ void menu()
     cout << "8. Diagonale Bas-Droite\n";
     cout << "Choisissez une option (1-8): " << endl;
 }
-// Fonction pour afficher la matrice et la remplir avec des valeurs aléatoires
 
 void remplirMatrice(int n, int m)
 {
@@ -199,20 +121,45 @@ void remplirMatrice(int n, int m)
         }
     }
 }
+void afficheMatrice2(int n, int m)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (j == m - 1 && Matric[i][j] == '1')
+            {
+                cout << " ";
+            }
 
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <cctype> // Pour isalpha
+            else
+            {
+                cout << " " << Matric[i][j] << " "; // Affichage du caractère
+            }
+        }
 
-using namespace std;
+        // Vérification si le dernier élément de la ligne est '1'
 
-void remplirMatrice123(int n, int m, vector<string> motsSelectionnes, int &khrouj)
+        cout << endl; // Retour à la ligne après chaque ligne de la matrice
+    }
+}
+
+void remplirMatriceN1(int n, int m, vector<string> motsSelectionnes, int &khrouj)
 {
     int randomValue;
     srand(time(0)); // Initialisation de la graine aléatoire
     int range = 30; // 26 lettres (A-Z) + 4 pour le chiffre '1'
+
+    for (int i = 0; i < n; i++)
+    {
+        string motCourant = motsSelectionnes[i];
+        for (int j = 0; j < motCourant.length(); j++)
+        {
+            Matric[i][j] = motCourant[j];
+            cout << Matric[i][j] << " ";
+        }
+        cout << endl;
+    }
 
     for (int i = 0; i < n; i++)
     {
@@ -255,11 +202,13 @@ void remplirMatrice123(int n, int m, vector<string> motsSelectionnes, int &khrou
     Matric[khrouj][m - 1] = 'A' + m;
 }
 
-void remplirMatrice1(int n, int m)
+void remplirMatriceN2(int n, int m, vector<string> motsSelectionnes, int &khrouj)
 {
-
     srand(time(0)); // Initialisation de la graine aléatoire
-    int range = 30; // 26 lettres + 4 pour le chiffre '1'
+    int range = 30; // 26 lettres (A-Z) + 4 pour le chiffre '1'
+    char Matric1[100][100];
+
+    // Initialisation des matrices
 
     for (int i = 0; i < n; i++)
     {
@@ -268,7 +217,7 @@ void remplirMatrice1(int n, int m)
         for (int j = 0; j < m; j++)
         {
             int randomValue = rand() % range; // Génère une valeur entre 0 et 29
-
+            Matric1[i][j] = 'r';
             // Génération des caractères aléatoires
             if (randomValue < 4)
             {
@@ -288,9 +237,153 @@ void remplirMatrice1(int n, int m)
             Matric[i][randomColumn] = '1';
         }
     }
+    cout << "Matrice principale : " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cout << " " << Matric[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    // Placement des mots
+    for (int rep = 0; rep < motsSelectionnes.size(); rep++)
+    {
+        string mot = motsSelectionnes[rep];
+        int k = mot.length();
+        int c = 0;
+        while (c < k)
+        {
+            int row = rand() % n;
+            int col = rand() % m;
+
+            // Vérifier si la case est disponible
+            while (Matric1[row][col] == '1')
+            {
+                row = rand() % n;
+                col = rand() % m;
+            }
+
+            Matric[row][col] = mot[c]; // Placement du caractère
+            Matric1[row][col] = '1';   // Marquer la case comme occupée
+            c++;
+        }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        Matric[i][m] = '1';
+    }
+    // Ajouter un `*` à une ligne aléatoire à la dernière colonne
+    khrouj = rand() % n;
+    Matric[khrouj][m] = '*'; // `m` étant la dernière colonne après les données
+    Matric[khrouj][m - 1] = 'A' + m;
+
+    cout << "Bara mrigel" << endl;
+
+    // Affichage de la matrice Matric
+    cout << "Matrice principale : " << endl;
+    afficheMatrice2(n + 1, m + 1);
+
+    // Affichage de la matrice Matric1
+    cout << "Matrice des indices (1 = mot placé, 0 = vide) : " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= m; j++)
+        {
+            cout << " " << Matric1[i][j] << " ";
+        }
+        cout << endl;
+    }
 }
 
-void remplirMatrice2(int n, int m)
+void remplirMatriceN3(int n, int m, vector<string> motsSelectionnes, int &khrouj)
+{
+    srand(time(0)); // Initialisation de la graine aléatoire
+    int range = 30; // 26 lettres (A-Z) + 4 pour le chiffre '1'
+    char Matric1[100][100];
+
+    // Initialisation des matrices
+
+    for (int i = 0; i < n; i++)
+    {
+        bool hasOne = false; // Vérifie si la ligne contient au moins un '1'
+
+        for (int j = 0; j < m; j++)
+        {
+            int randomValue = rand() % range; // Génère une valeur entre 0 et 29
+            // Génération des caractères aléatoires
+            if (randomValue < 4)
+            {
+                Matric[i][j] = '1'; // Cas pour '1'
+                hasOne = true;      // Marque qu'il y a un '1' dans cette ligne
+            }
+            else
+            {
+                Matric[i][j] = 'A' + (randomValue - 4); // Cas pour 'A' à 'Z'
+            }
+        }
+
+        // Si la ligne n'a pas de '1', force l'ajout d'un '1'
+        if (!hasOne)
+        {
+            int randomColumn = rand() % m; // Choisir une colonne aléatoire
+            Matric[i][randomColumn] = '1';
+        }
+    }
+    cout << "Matrice principale : " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cout << " " << Matric[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    // Placement des mots
+    for (int i = 0; i < n; i++)
+    {
+        string motCourant = motsSelectionnes[i];
+        for (int j = 0; j < (motCourant.length()) / 2; j++)
+        {
+            Matric[i][j] = motCourant[j];
+            cout << Matric[i][j] << " "; // Affichage
+        }
+        cout << endl;
+    }
+
+    // Remplissage de la seconde moitié en partant du bas
+    for (int i = n - 1; i >= 0; i--)
+    {
+        string motCourant = motsSelectionnes[i];
+        for (int j = (motCourant.length()) / 2; j < motCourant.length(); j++)
+        {
+            int k = n - 1 - i; // Correction de l'index
+            Matric[k][j] = motCourant[j];
+            cout << Matric[k][j] << " "; // Affichage corrigé
+        }
+        cout << endl;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        Matric[i][m] = '1';
+    }
+    // Ajouter un `*` à une ligne aléatoire à la dernière colonne
+    khrouj = rand() % n;
+    Matric[khrouj][m] = '*'; // `m` étant la dernière colonne après les données
+    Matric[khrouj][m - 1] = 'A' + m;
+
+    cout << "Bara mrigel" << endl;
+
+    // Affichage de la matrice Matric
+    cout << "Matrice principale : " << endl;
+    afficheMatrice2(n + 1, m + 1);
+
+    // Affichage de la matrice Matric1
+}
+
+void remplirMatrice2(int n, int m, int h)
 {
     srand(time(0)); // Initialisation de la graine aléatoire
     int range = 30; // 26 lettres + 4 pour le chiffre '1'
@@ -306,16 +399,26 @@ void remplirMatrice2(int n, int m)
             // Génération des caractères aléatoires
             if (connb)
             {
-                if (randomValue < 4)
+                char caractere = '0' + h;
+
+                if (std::string(1, Matric[i][j]) == "caractere")
                 {
-                    Matric[i][j] = '1'; // Cas pour '1'
-                    hasOne = true;      // Marque qu'il y a un '1' dans cette ligne
-                }
-                else
-                {
-                    Matric[i][j] = 'A' + (randomValue - 4); // Cas pour 'A' à 'Z'
+                    caractere = '0' + h;
+                    Matric[i][j] = caractere;
                 }
 
+                else
+                {
+                    if (randomValue < 4)
+                    {
+                        Matric[i][j] = '1'; // Cas pour '1'
+                        hasOne = true;      // Marque qu'il y a un '1' dans cette ligne
+                    }
+                    else
+                    {
+                        Matric[i][j] = 'A' + (randomValue - 4); // Cas pour 'A' à 'Z'
+                    }
+                }
                 // Si la ligne n'a pas de '1', force l'ajout d'un '1'
                 if (!hasOne)
                 {
@@ -326,6 +429,7 @@ void remplirMatrice2(int n, int m)
         }
     }
 }
+
 // Fonction pour afficher la matrice
 void afficheMatrice(int n, int m)
 {
@@ -339,28 +443,6 @@ void afficheMatrice(int n, int m)
     }
 }
 
-void afficheMatrice2(int n, int m)
-{
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            if (j == m - 1 && Matric[i][j] == '1')
-            {
-                cout << " ";
-            }
-
-            else
-            {
-                cout << " " << Matric[i][j] << " "; // Affichage du caractère
-            }
-        }
-
-        // Vérification si le dernier élément de la ligne est '1'
-
-        cout << endl; // Retour à la ligne après chaque ligne de la matrice
-    }
-}
 void afficheTab(char T[], int mac, int step)
 {
 
@@ -383,7 +465,7 @@ void afficheTab1(char T[], int mac)
     cout << endl;
 }
 
-void lireEtAfficherMots(const string &nomFichier, string verif, int &Score)
+void CompMot(const string &nomFichier, string verif, int& Score, int long1)
 {
     ifstream fichier(nomFichier); // Ouvrir le fichier en lecture
 
@@ -399,23 +481,87 @@ void lireEtAfficherMots(const string &nomFichier, string verif, int &Score)
     { // Lire mot par mot
         if (mot == verif)
         {
-            cout << "Mot lu exsiste : " << mot << endl;
-            Score = +30;
-        }
-
-        else
-        {
-            cout << "NON  : " << mot << endl;
+            cout << "Mot lu existe : " << mot << endl;
+            Score = Score + (30 + long1);
         }
     }
 
     fichier.close(); // Fermer le fichier
 }
 
+void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrouj)
+{
+
+    char Mot[m];
+    int index;
+    char TAB[nbligne];
+    string atwelklema;
+    int i = 0;
+
+    vector<string> mots; // Vecteur pour stocker tous les mots du fichier
+    string mot;          // Variable pour stocker chaque mot
+    vector<string> motsSelectionnes(nbligne);
+    ifstream fichier(nomFichier); // Ouvrir le fichier en lecture
+
+    if (!fichier)
+    {
+        cerr << "Erreur : Impossible d'ouvrir le fichier !" << endl;
+        return;
+    }
+
+    // Lire tous les mots du fichier et les stocker dans le vecteur
+    while (fichier >> mot)
+    {
+        mots.push_back(mot);
+    }
+
+    fichier.close(); // Fermer le fichier
+    // Vérifier si le fichier contient au moins 10 mots
+    if (mots.size() < 10)
+    {
+        cerr << "Erreur : Le fichier contient moins de 10 mots !" << endl;
+        return;
+    }
+
+    // Initialiser le générateur de nombres aléatoires
+    srand(static_cast<unsigned int>(time(0)));
+
+    // lena bch nrakhou el kelma
+    while (i < nbligne)
+    {
+        int index = rand() % mots.size();
+        if (mots[index].length() <= m - 1)
+        {
+            motsSelectionnes[i] = mots[index];
+            cout << "Mot sélectionné : " << motsSelectionnes[i] << endl;
+            i++;
+        }
+    }
+
+    atwelklema = motsSelectionnes[0]; // Initialiser avec le premier mot
+
+    for (int i = 1; i < nbligne; i++)
+    {
+        if (motsSelectionnes[i].length() > atwelklema.length())
+        {
+            atwelklema = motsSelectionnes[i]; // Mettre à jour si un mot plus long est trouvé
+        }
+        //   std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause d'une seconde
+    }
+
+    int k = atwelklema.length();
+    // std::this_thread::sleep_for(std::chrono::seconds(4));
+
+    cout << "la plul longe et  :" << atwelklema << "avec n de char " << k << endl;
+
+    remplirMatriceN3(nbligne, m, motsSelectionnes, khrouj);
+
+    cout << khrouj;
+}
 void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
 {
     T[0] = loul;
-    char rec, mot;
+    char rec, mot, pt;
     int j = 0, i = 0, step = 0, mac = 16, Score = 0;
 
     j++;
@@ -479,6 +625,41 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                         Matric[n1][m1] = static_cast<char>((step + 2) + '0');
                     }
 
+                    do
+                    {
+                        cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                        cin >> rec;
+
+                        if (conYO)
+                        {
+                            cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                        }
+                    } while (conYO);
+
+                    if (rec == 'Y' || rec == 'y')
+                    {
+
+                        string kelma(T, i); // lena nekhdhou el klma
+
+                        for (int k = 0; k < i; k++)
+                        {
+                            T[k] = ' ';
+                        }
+
+                        cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                        CompMot("mehdi.txt", kelma, Score, i);
+
+                        cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+
+                        i = 0;
+                        remplirMatrice2(n, m, step);
+                        afficheMatrice(n, m);
+                        step = 0;
+                    }
+
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
                 }
             }
@@ -516,6 +697,40 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                         T[i] = Matric[n1][m1];
                         i++;
                         Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                    }
+
+                    do
+                    {
+                        cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                        cin >> rec;
+
+                        if (conYO)
+                        {
+                            cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                        }
+                    } while (conYO);
+
+                    if (rec == 'Y' || rec == 'y')
+                    {
+
+                        string kelma(T, i); // lena nekhdhou el klma
+
+                        for (int k = 0; k < i; k++)
+                        {
+                            T[k] = ' ';
+                        }
+
+                        cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                        CompMot("mehdi.txt", kelma, Score, i);
+
+                        cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        step = 0;
+                        i = 0;
+                        remplirMatrice2(n, m, step);
+                        afficheMatrice(n, m);
                     }
 
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
@@ -560,6 +775,41 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
                 }
             }
+
+            do
+            {
+                cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                cin >> rec;
+
+                if (conYO)
+                {
+                    cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                }
+            } while (conYO);
+
+            if (rec == 'Y' || rec == 'y')
+            {
+
+                string kelma(T, i); // lena nekhdhou el klma
+
+                for (int k = 0; k < i; k++)
+                {
+                    T[k] = ' ';
+                }
+
+                cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                CompMot("mehdi.txt", kelma, Score, i);
+
+                cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                step = 0;
+                i = 0;
+                remplirMatrice2(n, m, step);
+                afficheMatrice(n, m);
+            }
+
             else
             {
                 cout << "Mouvement impossible (hors de la matrice).\n";
@@ -597,6 +847,39 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                     }
 
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
+                    do
+                    {
+                        cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                        cin >> rec;
+
+                        if (conYO)
+                        {
+                            cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                        }
+                    } while (conYO);
+
+                    if (rec == 'Y' || rec == 'y')
+                    {
+
+                        string kelma(T, i); // lena nekhdhou el klma
+
+                        for (int k = 0; k < i; k++)
+                        {
+                            T[k] = ' ';
+                        }
+
+                        cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                        CompMot("mehdi.txt", kelma, Score, i);
+
+                        cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        step = 0;
+                        i = 0;
+                        remplirMatrice2(n, m, step);
+                        afficheMatrice(n, m);
+                    }
                 }
             }
             else if (Matric[n1][m1 + 1] = '*')
@@ -644,6 +927,41 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
                 }
             }
+
+            do
+            {
+                cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                cin >> rec;
+
+                if (conYO)
+                {
+                    cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                }
+            } while (conYO);
+
+            if (rec == 'Y' || rec == 'y')
+            {
+
+                string kelma(T, i); // lena nekhdhou el klma
+
+                for (int k = 0; k < i; k++)
+                {
+                    T[k] = ' ';
+                }
+
+                cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                CompMot("mehdi.txt", kelma, Score, i);
+
+                cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                step = 0;
+                i = 0;
+                remplirMatrice2(n, m, step);
+                afficheMatrice(n, m);
+            }
+
             else
             {
                 cout << "Mouvement impossible (hors de la matrice).\n";
@@ -682,6 +1000,40 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                     }
 
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
+
+                    do
+                    {
+                        cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                        cin >> rec;
+
+                        if (conYO)
+                        {
+                            cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                        }
+                    } while (conYO);
+
+                    if (rec == 'Y' || rec == 'y')
+                    {
+
+                        string kelma(T, i); // lena nekhdhou el klma
+
+                        for (int k = 0; k < i; k++)
+                        {
+                            T[k] = ' ';
+                        }
+
+                        cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                        CompMot("mehdi.txt", kelma, Score, i);
+
+                        cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        step = 0;
+                        i = 0;
+                        remplirMatrice2(n, m, step);
+                        afficheMatrice(n, m);
+                    }
                 }
             }
             else if (Matric[n1 - 1][m1 + 1] == '*')
@@ -690,6 +1042,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                 m1 += 1;
                 cout << "finn";
             }
+
             else
             {
                 cout << "Mouvement impossible (hors de la matrice).\n";
@@ -730,6 +1083,41 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
                 }
             }
+
+            do
+            {
+                cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                cin >> rec;
+
+                if (conYO)
+                {
+                    cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                }
+            } while (conYO);
+
+            if (rec == 'Y' || rec == 'y')
+            {
+
+                string kelma(T, i); // lena nekhdhou el klma
+
+                for (int k = 0; k < i; k++)
+                {
+                    T[k] = ' ';
+                }
+
+                cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                CompMot("mehdi.txt", kelma, Score, i);
+
+                cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                step = 0;
+                i = 0;
+                remplirMatrice2(n, m, step);
+                afficheMatrice(n, m);
+            }
+
             else
             {
                 cout << "Mouvement impossible (hors de la matrice).\n";
@@ -768,6 +1156,40 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
                     }
 
                     cout << "Vous êtes maintenant dans la case : " << Matric[n1][m1] << endl;
+
+                    do
+                    {
+                        cout << "t7eb tkamel ??  ken ey Y snn N : " << endl;
+                        cin >> rec;
+
+                        if (conYO)
+                        {
+                            cout << "Entrée invalide. Veuillez taper Y ou N.\n";
+                        }
+                    } while (conYO);
+
+                    if (rec == 'Y' || rec == 'y')
+                    {
+
+                        string kelma(T, i); // lena nekhdhou el klma
+
+                        for (int k = 0; k < i; k++)
+                        {
+                            T[k] = ' ';
+                        }
+
+                        cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
+
+                        CompMot("mehdi.txt", kelma, Score, i);
+
+                        cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
+
+                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        step = 0;
+                        i = 0;
+                        remplirMatrice2(n, m, step);
+                        afficheMatrice(n, m);
+                    }
                 }
             }
             else if (Matric[n1 + 1][m1 + 1] == '*')
@@ -790,17 +1212,12 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
 
         if (Matric[n1][m1] == '*')
         {
-            mac = 1111;
-            string kelma(T, i); // lena nekhdhou el klma
 
-            for (int k = 0; k < i; k++)
-            {
-                T[k] = ' ';
-            }
+            string kelma(T, i); // lena nekhdhou el klma
 
             cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
 
-            lireEtAfficherMots("mehdi.txt", kelma, Score);
+            CompMot("mehdi.txt", kelma, Score, i);
 
             cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
 
@@ -810,14 +1227,6 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul)
         }
     }
     // lena lezem n3abiw aka les 2 avec des lettres
-
-    afficheTab1(T, mac);
-    i = 0;
-    remplirMatrice2(n, m);
-    afficheMatrice(n, m);
-
-    T[0] = Matric[n1][m1];
-    Matric[n1][m1] = '2';
 }
 
 #endif
