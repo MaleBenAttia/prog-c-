@@ -202,7 +202,7 @@ void remplirMatriceN1(int n, int m, vector<string> motsSelectionnes, int &khrouj
     Matric[khrouj][m - 1] = 'A' + m;
 }
 
-void remplirMatriceN2(int n, int m, vector<string> motsSelectionnes, int &khrouj)
+void remplirMatriceN3(int n, int m, vector<string> motsSelectionnes, int &khrouj)
 {
     srand(time(0)); // Initialisation de la graine aléatoire
     int range = 30; // 26 lettres (A-Z) + 4 pour le chiffre '1'
@@ -287,7 +287,7 @@ void remplirMatriceN2(int n, int m, vector<string> motsSelectionnes, int &khrouj
     }*/
 }
 
-void remplirMatriceN3(int n, int m, vector<string> motsSelectionnes, int &khrouj)
+void remplirMatriceN2(int n, int m, vector<string> motsSelectionnes, int &khrouj)
 {
     srand(time(0)); // Initialisation de la graine aléatoire
     int range = 30; // 26 lettres (A-Z) + 4 pour le chiffre '1'
@@ -517,7 +517,7 @@ void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrou
     }
 
     int k = atwelklema.length();
-    // std::this_thread::sleep_for(std::chrono::seconds(4));
+    // std::this_thread::sleep_for(std::chrono::seconds(1));
 
     cout << "la plul longe et  :  " << atwelklema << "  avec n de char " << k << endl;
     if (niv1 == 0)
@@ -633,7 +633,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as un Score de  " << Score << endl;
 
-                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
 
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
@@ -706,7 +706,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as un Score de  " << Score << endl;
 
-                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
                         step = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
@@ -783,7 +783,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                 cout << "tu as un Score de  " << Score << endl;
 
-                std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
                 step = 0;
                 i = 0;
                 remplirMatrice2(n, m, khrouj);
@@ -854,7 +854,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as un Score de  " << Score << endl;
 
-                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
                         step = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
@@ -935,7 +935,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                 cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
 
-                std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
                 step = 0;
                 i = 0;
                 remplirMatrice2(n, m, khrouj);
@@ -1008,7 +1008,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as un Score de  " << Score << endl;
 
-                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
                         step = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
@@ -1091,7 +1091,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                 cout << "tu as un Score de  " << Score << endl;
 
-                std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
                 step = 0;
                 i = 0;
                 remplirMatrice2(n, m, khrouj);
@@ -1163,7 +1163,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as un Score de  " << Score << endl;
 
-                        std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+                        std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
                         step = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
@@ -1201,7 +1201,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
             cout << "tu as un Score de  " << Score << endl;
             i = 222;
-            std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes
+            std::this_thread::sleep_for(std::chrono::seconds(1)); // Pause de 3 secondes
 
             // lezzem lena bch najmou nokhrjou mel while w najmou narfou kober el kelma
         }

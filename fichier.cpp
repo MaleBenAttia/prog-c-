@@ -8,9 +8,9 @@ int main()
 {
 int niveau;
 do {
-    cout << "Quel niveau souhaitez-vous ? (0 à 3) : " << endl;
+    cout << "Quel niveau souhaitez-vous ? (0 à 2) : " << endl;
     cin >> niveau;
-} while (niveau > 3 || niveau < 0);
+} while (niveau > 2 || niveau < 0);
 
 // Affichage du niveau sélectionné
 switch (niveau) {
@@ -39,7 +39,7 @@ switch (niveau) {
 } while (n > 100 || m > 100);
 
   string nomFichier = "mehdi.txt"; // Remplacez par le nom de votre fichier
-    lireEtAfficherMots(nomFichier, n, m,khrouj,niveau+1);
+    lireEtAfficherMots(nomFichier, n, m,khrouj,niveau);
 afficheMatrice2(n, m+1); // Affiche la matrice
 
 
