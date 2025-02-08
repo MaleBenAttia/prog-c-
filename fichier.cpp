@@ -39,7 +39,7 @@ switch (niveau) {
 } while (n > 100 || m > 100);
 
   string nomFichier = "mehdi.txt"; // Remplacez par le nom de votre fichier
-    lireEtAfficherMots(nomFichier, n, m,khrouj,niveau);
+    lireEtAfficherMots(nomFichier, n, m,khrouj,niveau+1);
 afficheMatrice2(n, m+1); // Affiche la matrice
 
 

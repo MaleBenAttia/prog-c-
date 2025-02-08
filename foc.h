@@ -435,7 +435,7 @@ void afficheTab1(char T[], int mac)
 void CompMot(const string &nomFichier, string verif, int &Score, int long1, int niveau)
 {
     ifstream fichier(nomFichier); // Ouvrir le fichier en lecture
-
+    
     if (!fichier)
     {
         cerr << "Erreur : Impossible d'ouvrir le fichier !" << endl;
@@ -629,7 +629,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                        CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                         cout << "tu as un Score de  " << Score << endl;
 
@@ -702,7 +702,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                         }
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                        CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                         cout << "tu as un Score de  " << Score << endl;
 
@@ -779,7 +779,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                 cout << "tu as le mot " << kelma << endl;
 
-                CompMot("mehdi.txt", kelma, Score, i, niv);
+                CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                 cout << "tu as un Score de  " << Score << endl;
 
@@ -850,7 +850,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                        CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                         cout << "tu as un Score de  " << Score << endl;
 
@@ -931,7 +931,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                 cout << "tu as le mot " << kelma << "    okkkkkkkkkkkkkkk " << endl;
 
-                CompMot("mehdi.txt", kelma, Score, i, niv);
+                CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                 cout << "tu as un Score de  " << Score << "    okkkkkkkkkkkkkkk " << endl;
 
@@ -1004,7 +1004,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                        CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                         cout << "tu as un Score de  " << Score << endl;
 
@@ -1087,7 +1087,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                 cout << "tu as le mot " << kelma << endl;
 
-                CompMot("mehdi.txt", kelma, Score, i, niv);
+                CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                 cout << "tu as un Score de  " << Score << endl;
 
@@ -1159,7 +1159,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                         }
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                        CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
                         cout << "tu as un Score de  " << Score << endl;
 
@@ -1197,7 +1197,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
             cout << "tu as le mot " << kelma << endl;
 
-            CompMot("mehdi.txt", kelma, Score, i, niv);
+            CompMot("mehdi.txt", kelma, Score, i, niv+1);
 
             cout << "tu as un Score de  " << Score << endl;
             i = 222;
