@@ -19,7 +19,7 @@
 #include <ctime>
 using namespace std;
 vector<string> motsSelectionnes(100);
-int x = 0, khrouj = 0;
+int x = 0, khrouj = 0, kk = 0;
 int T1[10];
 #define connb (Matric[i][j] == '2' || Matric[i][j] == '3' || Matric[i][j] == '4' || Matric[i][j] == '5' || Matric[i][j] == '6' || Matric[i][j] == '7' || Matric[i][j] == '8' || Matric[i][j] == '9')
 #define conYO (rec != 'Y' && rec != 'y' && rec != 'N' && rec != 'n')
@@ -184,7 +184,29 @@ void afficheMatrice2(int n, int m)
 
         cout << endl; // Retour à la ligne après chaque ligne de la matrice
     }
-    recopiematrice(n, m);
+}
+
+void afficheMatrice3(int n, int m)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (j == m - 1 && Matric3[i][j] == '1')
+            {
+                cout << " ";
+            }
+
+            else
+            {
+                cout << " " << Matric3[i][j] << " "; // Affichage du caractère
+            }
+        }
+
+        // Vérification si le dernier élément de la ligne est '1'
+
+        cout << endl; // Retour à la ligne après chaque ligne de la matrice
+    }
 }
 
 void remplirMatriceN1(int n, int m, vector<string> motsSelectionnes, int &khrouj)
@@ -334,69 +356,64 @@ void remplirMatriceN3(int n, int m, vector<string> motsSelectionnes, int &khrouj
 void remplirMatriceN2(int n, int m, vector<string> motsSelectionnes, int &khrouj)
 {
     srand(time(0)); // Initialisation de la graine aléatoire
-    int range = 30; // 26 lettres (A-Z) + 4 pour le chiffre '1'
-    char Matric1[100][100];
+    int range = 30; // 26 lettres (A-Z) + 4 pour '1'
 
-    // Initialisation des matrices
-
+    // Initialisation de la matrice avec des caractères aléatoires
     for (int i = 0; i < n; i++)
     {
         bool hasOne = false; // Vérifie si la ligne contient au moins un '1'
 
         for (int j = 0; j < m; j++)
         {
-            int randomValue = rand() % range; // Génère une valeur entre 0 et 29
-            // Génération des caractères aléatoires
+            int randomValue = rand() % range;
             if (randomValue < 4)
             {
-                Matric[i][j] = '1'; // Cas pour '1'
-                hasOne = true;      // Marque qu'il y a un '1' dans cette ligne
+                Matric[i][j] = '1'; // Placement de quelques '1'
+                hasOne = true;
             }
             else
             {
-                Matric[i][j] = 'A' + (randomValue - 4); // Cas pour 'A' à 'Z'
+                Matric[i][j] = 'A' + (randomValue - 4); // Lettre aléatoire
             }
         }
 
-        // Si la ligne n'a pas de '1', force l'ajout d'un '1'
+        // Si la ligne n'a pas de '1', en ajouter un
         if (!hasOne)
         {
-            int randomColumn = rand() % m; // Choisir une colonne aléatoire
+            int randomColumn = rand() % m;
             Matric[i][randomColumn] = '1';
         }
     }
 
-    // Placement des mots
-    for (int i = 0; i < n; i++)
+    // **Placement des mots avec inversion**
+    int totalMots = motsSelectionnes.size();
+    for (int i = 0; i < totalMots; i++)
     {
         string motCourant = motsSelectionnes[i];
-        for (int j = 0; j < (motCourant.length()) / 2; j++)
+        int longueurMot = motCourant.length();
+        int milieu = longueurMot / 2;
+
+        // Ligne normale
+        int rowNormale = i % n;
+        // Ligne inversée
+        int rowInverse = (n - 1 - i) % n;
+
+        // **Placer la première moitié**
+        for (int j = 0; j < milieu; j++)
         {
-            Matric[i][j] = motCourant[j];
-            // cout << Matric[i][j] << " "; // Affichage
+            Matric[rowNormale][j] = motCourant[j];
         }
-        // cout << endl;
+
+        // **Placer la deuxième moitié dans la ligne inverse**
+        for (int j = milieu; j < longueurMot; j++)
+        {
+            Matric[rowInverse][m - longueurMot + j] = motCourant[j]; // Mettre à la fin de la ligne inverse
+        }
     }
 
-    // Remplissage de la seconde moitié en partant du bas
-    for (int i = n - 1; i >= 0; i--)
-    {
-        string motCourant = motsSelectionnes[i];
-        for (int j = (motCourant.length()) / 2; j < motCourant.length(); j++)
-        {
-            int k = n - 1 - i; // Correction de l'index
-            Matric[k][j] = motCourant[j];
-            // cout << Matric[k][j] << " "; // Affichage corrigé
-        }
-        // cout << endl;
-    }
-    for (int i = 0; i < n; i++)
-    {
-        Matric[i][m] = '1';
-    }
     // Ajouter un `*` à une ligne aléatoire à la dernière colonne
     khrouj = rand() % n;
-    Matric[khrouj][m] = '*'; // `m` étant la dernière colonne après les données
+    Matric[khrouj][m] = '*';
     Matric[khrouj][m - 1] = 'A' + m;
     recopiematrice(n, m);
     /*
@@ -430,11 +447,12 @@ void remplirMatrice2(int n, int m, int khrouj)
                 }
                 else
                 {
-                    Matric[i][j] = 'A' + (randomValue - 4); // Cas pour 'A' à 'Z'
+                    Matric[i][j] = 'A' + (randomValue - 5); // Cas pour 'A' à 'Z'
                 }
             }
         }
     }
+    recopiematrice(n, m);
 }
 
 void afficheTab(char T[], int mac, int step)
@@ -458,54 +476,149 @@ void afficheTab1(char T[], int mac)
     }
     cout << endl;
 }
-
-void CompMot1(const string &nomFichier, string verif, int &Score, int long1, int niveau)
+void CompMot1(string verif, int &Score, int long1, int niveau, int Tab[], int step, vector<string> &motsSelectionnes)
 {
-    ifstream fichier(nomFichier); // Ouvrir le fichier en lecture
+    bool motTrouve = false;
+    int totalChemin = 0;
 
-    if (!fichier)
+    // Recherche du mot dans le vecteur
+    for (int i = 0; i < motsSelectionnes.size(); i++)
     {
-        cerr << "Erreur : Impossible d'ouvrir le fichier !" << endl;
-        return;
-    }
-
-    string mot; // Variable pour stocker chaque mot
-
-    while (fichier >> mot)
-    { // Lire mot par mot
-        if (mot == verif)
+        if (motsSelectionnes[i] == verif)
         {
+            motTrouve = true;
 
-            Score = Score + ((30 * niveau) + long1);
+            // Supprimer le mot trouvé (Décalage des éléments)
+            for (int j = i; j < motsSelectionnes.size() - 1; j++)
+            {
+                motsSelectionnes[j] = motsSelectionnes[j + 1];
+            }
+            motsSelectionnes.pop_back(); // Réduire la taille du vecteur
+            break;
         }
     }
 
-    fichier.close(); // Fermer le fichier
-}
-
-void CompMot(const string &nomFichier, string verif, int &Score, int long1, int niveau)
-{
-    ifstream fichier(nomFichier); // Ouvrir le fichier en lecture
-
-    if (!fichier)
+    if (motTrouve)
     {
-        cerr << "Erreur : Impossible d'ouvrir le fichier !" << endl;
-        return;
+        // Calcul du chemin total parcouru
+        for (int i = 0; i < verif.length(); i++)
+        {
+            totalChemin += Tab[i];
+        }
+
+        // Calcul du score
+        int bonusNiveau = 30 * niveau;
+        int bonusLongueur = long1;
+        int bonusChemin = (step <= totalChemin) ? (niveau * 20) : 0;
+
+        Score += bonusNiveau + bonusLongueur + bonusChemin;
     }
 
-    string mot; // Variable pour stocker chaque mot
+    // ✅ Affichage des résultats finaux ✅
+    cout << "\n\033[1;36m========================================\033[0m" << endl;
+    cout << "\033[1;32m🎉 Fin du jeu ! Résultats 🎉\033[0m" << endl;
+    cout << "\033[1;36m========================================\033[0m\n" << endl;
 
-    while (fichier >> mot)
-    { // Lire mot par mot
-        if (mot == verif)
+    cout << "\033[1;33m🏆 Score final : \033[1;34m" << Score << "\033[0m" << endl;
+    cout << "\033[1;35m📊 Niveau atteint : \033[1;34m" << niveau << "\033[0m" << endl;
+    cout << "\033[1;36m📝 Mot recherché : \033[1;32m" << verif << "\033[0m" << endl;
+    cout << "\033[1;34m🔢 Chemin parcouru : \033[1;33m" << totalChemin << "\033[0m" << endl;
+    cout << "\033[1;34m🚀 Chemin optimal : \033[1;33m" << step << "\033[0m" << endl;
+
+    if (motTrouve)
+    {
+        if (step <= totalChemin)
         {
-            cout << "Mot lu existe : " << mot << endl;
-            Score = Score + ((30 * niveau) + long1);
+            cout << "\n\033[1;32m✅ Bravo ! Tu as trouvé le mot avec le chemin optimal !\033[0m" << endl;
+        }
+        else
+        {
+            cout << "\n\033[1;33m⚠️ Bien joué ! Mais tu aurais pu trouver un chemin plus court.\033[0m" << endl;
+        }
+    }
+    else
+    {
+        cout << "\n\033[1;31m❌ Dommage... Le mot n'a pas été trouvé.\033[0m" << endl;
+    }
+
+    // 🔍 Afficher les mots restants 🔍
+    cout << "\n\033[1;36mMots restants : \033[0m";
+    if (motsSelectionnes.empty())
+    {
+        cout << "\033[1;32mAucun, tous les mots ont été trouvés ! 🎉\033[0m" << endl;
+    }
+    else
+    {
+        for (const auto &mot : motsSelectionnes)
+        {
+            cout << mot << " ";
+        }
+        cout << "\033[0m" << endl;
+    }
+
+    cout << "\n\033[1;36mMerci d'avoir joué ! À bientôt ! 🎮\033[0m" << endl;
+    cout << "\033[1;36m========================================\033[0m\n" << endl;
+}
+
+void CompMot(string verif, int &Score, int long1, int niveau, int Tab[], int step, vector<string> &motsSelectionnes)
+{
+    bool motTrouve = false;
+    int totalChemin = 0;
+
+    // Recherche du mot avec une boucle simple
+    for (int i = 0; i < motsSelectionnes.size(); i++)
+    {
+        if (motsSelectionnes[i] == verif)
+        {
+            motTrouve = true;
+
+            // Supprimer le mot en décalant les éléments suivants
+            for (int j = i; j < motsSelectionnes.size() - 1; j++)
+            {
+                motsSelectionnes[j] = motsSelectionnes[j + 1];
+            }
+            motsSelectionnes.pop_back(); // Réduire la taille du vecteur
+
+            break; // Sortir de la boucle après avoir trouvé le mot
         }
     }
 
-    fichier.close(); // Fermer le fichier
+    if (motTrouve)
+    {
+        // Calcul du chemin total parcouru
+        for (int i = 0; i < verif.length(); i++)
+        {
+            totalChemin += Tab[i];
+        }
+
+        // Calcul du score
+        int bonusNiveau = 30 * niveau;
+        int bonusLongueur = long1;
+        int bonusChemin = (step <= totalChemin) ? (niveau * 20) : 0;
+
+        Score += bonusNiveau + bonusLongueur + bonusChemin;
+
+        // Affichage du succès
+        cout << "✅ Bravo ! Tu as trouvé le mot " << verif << " !" << endl;
+        cout << "🔢 Chemin parcouru : " << totalChemin << endl;
+        cout << "🚀 Chemin optimal : " << step << endl;
+
+        if (step <= totalChemin)
+        {
+            cout << "🏆 Excellent ! Tu as trouvé le mot avec le chemin optimal !" << endl;
+        }
+        else
+        {
+            cout << "⚠️ Tu aurais pu trouver un chemin plus court." << endl;
+        }
+    }
+    else
+    {
+        cout << "❌ Dommage... Le mot " << verif << " n'est pas dans le vecteur." << endl;
+    }
 }
+
+
 
 void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrouj, int niv1)
 {
@@ -665,7 +778,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
     T[0] = loul;
     char rec, mot, pt;
     int j = 0, i = 0, step = 0, mac = 16, Score = 0, k = 0, t = 1, lon = 0, o = m1, p = n1;
-    bool test = 0,vizita=0;
+    bool test = 0, vizita = 0;
     vector<string> motsCorrespondants;
     j++;
 
@@ -681,10 +794,18 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
     while (i < mac)
     {
 
-        if (i == 1 && vizita==0 )
-        { 
-            vizita=1;
-            char c = Matric[p][o];
+        if (i == 1 && vizita == 0)
+        {
+            vizita = 1;
+            char c = Matric[n1][m1];
+            p = n1;
+            o = m1;
+
+            cout << "Lettre sélectionnée : " << c << endl;
+
+            // Réinitialiser les variables pour garantir un nouveau mot à chaque exécution
+            motsCorrespondants.clear();
+            kk = 0; // Réinitialiser l'index du mot sélectionné
 
             for (string mot : motsSelectionnes)
             {
@@ -693,61 +814,92 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     test = 1;
                     motsCorrespondants.push_back(mot);
                 }
-                else
-                    test = 0;
             }
 
-            if (  test == 0)
+            if (motsCorrespondants.empty())
             {
                 cout << "Aucun mot trouvé avec la lettre " << c << endl;
+                for (int i = 0; i < m; i++)
+                {
+                    T1[i] = 3000;
+                    cout << T1[i] << endl;
+                }
             }
-
             else
             {
-                string motChoisi = motsCorrespondants[0];
+
+                // Vérification de kk avant d'accéder à un élément
+                if (kk >= motsCorrespondants.size())
+                {
+                    cout << "Erreur : kk dépasse la taille de motsCorrespondants." << endl;
+                }
+
+                // Sélectionner un nouveau mot
+                string motChoisi = motsCorrespondants[kk];
+                cout << "Mot choisi : " << motChoisi << endl;
+
                 vector<pair<int, int>> positions = {{p, o}};
                 int i12 = 0;
-                while (t < (motChoisi.length()))
+
+                int maxIterations = 100; // Pour éviter boucle infinie
+                t = 1;                   // Réinitialiser t pour un nouveau mot
+                while (t < motChoisi.length() && maxIterations > 0)
                 {
+                    maxIterations--;
+
                     vector<pair<int, int>> positionsMot = trouverOccurrences(motChoisi[t], n, m);
 
                     if (positionsMot.empty())
                     {
-                        cout << "Impossible de trouver un chemin." << endl;
+                        cout << "Impossible de trouver un chemin vers " << motChoisi[t] << endl;
+                        t++;
+                        continue;
                     }
 
                     vector<pair<int, int>> chemin = dijkstra(p, o, positionsMot[0].first, positionsMot[0].second, n, m);
 
                     if (chemin.empty())
                     {
-                        cout << "Aucun chemin trouvé vers la lettre du mot." << endl;
+                        cout << "Aucun chemin trouvé vers la lettre " << motChoisi[t] << "." << endl;
                     }
                     else
                     {
                         cout << "Chemin trouvé :" << endl;
                         for (auto [x, y] : chemin)
                         {
-                            // cout << "(" << x << ", " << y << ") ";
+                            cout << "(" << x << ", " << y << ") ";
                             lon++;
                             p = x;
                             o = y;
                         }
-                        Matric3[p][o] = 1;
                         lon--;
                         cout << endl;
+                        Matric3[p][o] = '1';
                     }
 
-                    t++;
                     T1[i12] = lon;
                     i12++;
                     lon = 0;
+                    t++;
                 }
-                cout << "les cours path sont" << endl;
+
+                if (maxIterations == 0)
+                {
+                    cout << "Erreur : boucle infinie détectée !" << endl;
+                    return;
+                }
+
+                cout << "Les longueurs des plus courts chemins sont :" << endl;
                 for (int i = 0; i < i12; i++)
                 {
                     cout << T1[i] << endl;
                 }
+
+                // Réinitialiser `t` et mettre à jour la matrice
+                t = 1;
+                Matric[n1][m1] = static_cast<char>((0 + 2) + '0');
             }
+            afficheMatrice3(n, m + 1);
         }
 
         if (k == 0)
@@ -755,6 +907,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
             cout << "Vous etes actuellement à la position : " << "(" << n1 << "," << m1 << ")" << endl;
             afficheTab1(T, mac);
             k++;
+            Matric[n1][m1] = '2';
         }
         cout << "Choisissez une option (entre 1 et 8) : " << endl;
         menu();
@@ -799,7 +952,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
 
@@ -826,12 +987,12 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                        CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                         cout << "tu as un Score de  " << Score << endl;
 
                         /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
-                        vizita=0;
+                        vizita = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
                         step = 0;
@@ -871,7 +1032,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
 
@@ -897,13 +1066,13 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                         }
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                       CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                         cout << "tu as un Score de  " << Score << endl;
 
                         /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
                         step = 0;
-                        vizita=0;
+                        vizita = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
                     }
@@ -942,7 +1111,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
 
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
@@ -970,13 +1147,13 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                     cout << "tu as le mot " << kelma << endl;
 
-                    CompMot("mehdi.txt", kelma, Score, i, niv);
+                   CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                     cout << "tu as un Score de  " << Score << endl;
 
                     /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
                     step = 0;
-                    vizita=0;
+                    vizita = 0;
                     i = 0;
                     remplirMatrice2(n, m, khrouj);
                 }
@@ -1015,7 +1192,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
 
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
@@ -1042,13 +1227,13 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                       CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                         cout << "tu as un Score de  " << Score << endl;
 
                         /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
                         step = 0;
-                        vizita=0;
+                        vizita = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
                     }
@@ -1093,7 +1278,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
 
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
@@ -1121,13 +1314,13 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                     cout << "tu as le mot " << kelma << endl;
 
-                    CompMot("mehdi.txt", kelma, Score, i, niv);
+                   CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                     cout << "tu as un Score de  " << Score << endl;
 
                     /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
                     step = 0;
-                    vizita=0;
+                    vizita = 0;
                     i = 0;
                     remplirMatrice2(n, m, khrouj);
                 }
@@ -1167,7 +1360,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
 
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
@@ -1195,13 +1396,13 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                       CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                         cout << "tu as un Score de  " << Score << endl;
 
                         /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
                         step = 0;
-                        vizita=0;
+                        vizita = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
                     }
@@ -1247,7 +1448,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
 
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
@@ -1275,13 +1484,13 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                       CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                         cout << "tu as un Score de  " << Score << endl;
 
                         /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
                         step = 0;
-                        vizita=0;
+                        vizita = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
                     }
@@ -1321,7 +1530,15 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                         T[i] = Matric[n1][m1];
                         i++;
-                        Matric[n1][m1] = static_cast<char>((step + 2) + '0');
+                        if (i != 1)
+                        {
+                            int step1 = step;
+                            if (step > 9)
+                            {
+                                step1 = step % 10;
+                            }
+                            Matric[n1][m1] = static_cast<char>((step1 + 2) + '0');
+                        }
                     }
 
                     cout << "Vous êtes maintenant dans la case :  (" << n1 << "," << m1 << ")" << endl;
@@ -1348,13 +1565,13 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                         }
                         cout << "tu as le mot " << kelma << endl;
 
-                        CompMot("mehdi.txt", kelma, Score, i, niv);
+                       CompMot(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
                         cout << "tu as un Score de  " << Score << endl;
 
                         /*std::this_thread::sleep_for(std::chrono::seconds(4)); // Pause de 3 secondes*/
                         step = 0;
-                        vizita=0;
+                        vizita = 0;
                         i = 0;
                         remplirMatrice2(n, m, khrouj);
                     }
@@ -1383,7 +1600,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
             cout << "Victoire!" << endl;
 
-            CompMot1("mehdi.txt", kelma, Score, i, niv);
+            CompMot1(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
             cout << "Score Final: " << Score << endl;
             i = 222;

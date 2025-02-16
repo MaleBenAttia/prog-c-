@@ -5,6 +5,9 @@
 #include <ctime>
 
 using namespace std;
+char Matric[100][100];
+char Matric1[100][100];
+char Matric3[100][100];
 
 struct Node
 {
@@ -18,19 +21,18 @@ struct Node
 const int dx[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
 const int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
 
-char Matric[100][100];
-char Matric1[100][100];
-char  Matric3[100][100];
 
-void recopiematrice(int n,int m){
+
+void recopiematrice(int n, int m)
+{
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j <= m; j++)
         {
-            Matric3[i][j]= Matric[i][j];
+            Matric3[i][j] = Matric[i][j];
         }
-    } }
-
+    }
+}
 
 vector<pair<int, int>> trouverOccurrences(char lettre, int n, int m)
 {
@@ -159,11 +161,11 @@ void remplirMatriceN3(int n, int m, vector<string> motsSelectionnes, int &khrouj
     khrouj = rand() % n;
     Matric[khrouj][m] = '*'; // `m` étant la dernière colonne après les données
     Matric[khrouj][m - 1] = 'A' + m;
-    recopiematrice(n,m);
+    recopiematrice(n, m);
 }
 int main()
 {
-   int T1[10]={0,0,0,0,0,0,0,0};
+    int T1[10] ;
     int n = 7, m = 7, khrouj, lon = 0, t = 1;
     vector<string> motsSelectionnes = {"MALEK", "ION", "LE"};
     remplirMatriceN3(n, m, motsSelectionnes, khrouj);
@@ -209,9 +211,9 @@ int main()
     {
         string motChoisi = motsCorrespondants[0];
         vector<pair<int, int>> positions = {{p, o}};
-        int i12=0;
-         while (t < (motChoisi.length()))
-         {
+        int i12 = 0;
+        while (t < (motChoisi.length()))
+        {
             vector<pair<int, int>> positionsMot = trouverOccurrences(motChoisi[t], n, m);
 
             if (positionsMot.empty())
@@ -231,25 +233,25 @@ int main()
                 cout << "Chemin trouvé :" << endl;
                 for (auto [x, y] : chemin)
                 {
-                   // cout << "(" << x << ", " << y << ") ";
+                    // cout << "(" << x << ", " << y << ") ";
                     lon++;
-                    p=x;
-                    o=y;
+                    p = x;
+                    o = y;
                 }
-                Matric3[p][o]=1;
+                Matric3[p][o] = 1;
                 lon--;
                 cout << endl;
             }
-           
+
             t++;
-            T1[i12]=lon;
+            T1[i12] = lon;
             i12++;
-            lon=0;
+            lon = 0;
         }
-cout<<"les cours path sont"<<endl;
-        for(int i=0;i<i12;i++){
-            cout<< T1[i]<<endl;
-            
+        cout << "les cours path sont" << endl;
+        for (int i = 0; i < i12; i++)
+        {
+            cout << T1[i] << endl;
         }
     }
     return 0;
